@@ -31,7 +31,8 @@ function loadMediaPipeHandsScript(): Promise<void> {
 
   scriptPromise = new Promise<void>((resolve, reject) => {
     const script = document.createElement('script');
-    script.src = '/mediapipe-hands/hands.js';
+    const handsBaseUrl = `${import.meta.env.BASE_URL}mediapipe-hands/`;
+    script.src = `${handsBaseUrl}hands.js`;
     script.async = true;
     script.onload = () => {
       if (window.Hands) {
@@ -40,7 +41,7 @@ function loadMediaPipeHandsScript(): Promise<void> {
         reject(new Error('No se pudo inicializar el módulo local MediaPipe Hands.'));
       }
     };
-    script.onerror = () => reject(new Error('Error cargando /mediapipe-hands/hands.js'));
+    script.onerror = () => reject(new Error('Error cargando el módulo MediaPipe Hands.'));
     document.head.appendChild(script);
   });
 
@@ -116,7 +117,7 @@ export class HandTrackerController {
       }
 
       const hands = new window.Hands({
-        locateFile: (file: string) => `/mediapipe-hands/${file}`,
+        locateFile: (file: string) => `${import.meta.env.BASE_URL}mediapipe-hands/${file}`,
       });
 
       hands.setOptions({

@@ -52,6 +52,9 @@ function mediapipeHandsStaticPlugin(): Plugin {
 }
 
 export default defineConfig({
+  // GitHub Pages hosts this repository under /Cafe_Daniel_version/; local
+  // development and preview continue to use the site root.
+  base: process.env.GITHUB_ACTIONS ? '/Cafe_Daniel_version/' : '/',
   plugins: [react(), mediapipeHandsStaticPlugin()],
   server: {
     host: '0.0.0.0',
