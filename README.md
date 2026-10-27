@@ -18,7 +18,24 @@ Simulación y juego interactivo en **Realidad Fusionada (Merged Reality)** y **R
 
 ## Ejecución Local
 
+Requiere Node.js 20 o posterior.
+
 ```bash
-npm install
+npm ci
 npm run dev
 ```
+
+Para verificar la versión de producción localmente:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Publicar en GitHub Pages
+
+El workflow `.github/workflows/deploy-pages.yml` compila y publica automáticamente el sitio en GitHub Pages al hacer `push` a `main` (también puede iniciarse manualmente desde **Actions**). En el repositorio, activa **Settings → Pages → Build and deployment → Source: GitHub Actions**. Después del primer despliegue, la URL será:
+
+<https://daramirezmor.github.io/Cafe_Daniel_version/>
+
+El build configura la ruta base para el nombre de este repositorio y conserva rutas compatibles con Pages, incluido el modelo local de MediaPipe. La cámara requiere permiso del usuario y un contexto seguro (HTTPS); el control por mouse/touch sigue disponible sin cámara.
