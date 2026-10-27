@@ -1,0 +1,720 @@
+:root {
+  --brand-blue: #1a6bb8;
+  --brand-cyan: #38bdf8;
+  --navy-deep: #0b1624;
+  --glass-bg: rgba(11, 22, 36, 0.8);
+  --glass-light: rgba(248, 250, 252, 0.93);
+  --border-subtle: rgba(148, 163, 184, 0.24);
+  --emerald: #10b981;
+  --amber: #f59e0b;
+  --crimson: #ef4444;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #07111e;
+  color: #f1f5f9;
+}
+
+.mr-app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* AR Passthrough Webcam Layer */
+.ar-webcam-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  z-index: 0;
+  filter: contrast(1.04) saturate(1.06);
+}
+
+.ar-simulated-room-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(30, 58, 95, 0.55), rgba(7, 17, 30, 0.96)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(56, 189, 248, 0.05) 0px,
+      rgba(56, 189, 248, 0.05) 1px,
+      transparent 1px,
+      transparent 48px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(56, 189, 248, 0.05) 0px,
+      rgba(56, 189, 248, 0.05) 1px,
+      transparent 1px,
+      transparent 48px
+    );
+}
+
+.webgl-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: grab;
+}
+
+.webgl-stage:active {
+  cursor: grabbing;
+}
+
+/* Top Header Bar */
+.top-hud-bar {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(11, 22, 36, 0.84);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(56, 189, 248, 0.26);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  flex-wrap: wrap;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1d74c6, #0ea5e9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.45);
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #60a5fa;
+  line-height: 1.15;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.mode-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.78);
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+}
+
+.mode-pill {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.16s ease;
+}
+
+.mode-pill:hover {
+  color: #f8fafc;
+  background: rgba(51, 65, 85, 0.45);
+}
+
+.mode-pill.active {
+  background: linear-gradient(135deg, #1a6bb8, #0284c7);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+}
+
+.score-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.webcam-btn {
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  background: rgba(6, 78, 59, 0.55);
+  color: #6ee7b7;
+  padding: 6px 11px;
+  border-radius: 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.16s ease;
+}
+
+.webcam-btn:hover {
+  background: rgba(5, 150, 105, 0.7);
+  color: #ffffff;
+}
+
+.webcam-btn.live {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);
+}
+
+.icon-btn {
+  border: 1px solid var(--border-subtle);
+  background: rgba(30, 41, 59, 0.75);
+  color: #e2e8f0;
+  padding: 6px 9px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.icon-btn:hover {
+  background: rgba(51, 65, 85, 0.95);
+  border-color: #60a5fa;
+}
+
+/* Projected 3D Spatial AR Callouts */
+.ar-spatial-callout {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 5;
+  pointer-events: none;
+  padding: 5px 10px;
+  border-radius: 9px;
+  background: rgba(11, 22, 36, 0.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.48);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  transition: left 0.08s linear, top 0.08s linear;
+}
+
+.ar-spatial-callout.emerald {
+  border-color: rgba(16, 185, 129, 0.65);
+}
+
+.ar-spatial-callout.amber {
+  border-color: rgba(245, 158, 11, 0.65);
+}
+
+.ar-callout-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.ar-callout-sub {
+  font-size: 9.5px;
+  color: #93c5fd;
+}
+
+/* Mission Banner */
+.mission-banner {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(16, 185, 129, 0.95));
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Side Columns */
+.left-hud-panel {
+  position: absolute;
+  top: 74px;
+  left: 12px;
+  bottom: 86px;
+  width: 306px;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.right-hud-panel {
+  position: absolute;
+  top: 74px;
+  right: 12px;
+  bottom: 86px;
+  width: 332px;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hud-card {
+  pointer-events: auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 11px 13px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.34);
+}
+
+/* Diagram-inspired Diagnostic Card with Blue Corner Brackets! */
+.diagnostic-diagram-card {
+  pointer-events: auto;
+  position: relative;
+  background: rgba(248, 250, 252, 0.95);
+  color: #0f172a;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 13px 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.diagnostic-diagram-card::before,
+.diagnostic-diagram-card::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-right: 5px solid #4a8fd9;
+  pointer-events: none;
+}
+
+.diagnostic-diagram-card::before {
+  top: -2px;
+  border-top: 5px solid #4a8fd9;
+  border-top-right-radius: 12px;
+}
+
+.diagnostic-diagram-card::after {
+  bottom: -2px;
+  border-bottom: 5px solid #4a8fd9;
+  border-bottom-right-radius: 12px;
+}
+
+.section-heading {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+/* Weather & Environment Controls */
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-bottom: 9px;
+}
+
+.weather-btn {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.72);
+  color: #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.weather-btn:hover {
+  border-color: #38bdf8;
+  color: #fff;
+}
+
+.weather-btn.active {
+  background: rgba(2, 132, 199, 0.38);
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 7px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.slider-row input[type='range'] {
+  width: 100%;
+  accent-color: #38bdf8;
+  height: 5px;
+  cursor: pointer;
+}
+
+/* Live Reaction Log */
+.reaction-log-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 130px;
+  overflow: hidden;
+}
+
+.reaction-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 3px;
+}
+
+.reaction-item {
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.75);
+  border-left: 3px solid #38bdf8;
+  font-size: 11px;
+  line-height: 1.32;
+}
+
+.reaction-item.human {
+  border-left-color: #34d399;
+}
+
+.reaction-item.environment {
+  border-left-color: #fbbf24;
+}
+
+.reaction-item.danger {
+  border-left-color: #ef4444;
+  background: rgba(69, 10, 10, 0.45);
+}
+
+.reaction-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  color: #94a3b8;
+}
+
+/* Optical Camera Sensor PiP */
+.sensor-pip-wrapper {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  background: #050c16;
+}
+
+.sensor-canvas {
+  display: block;
+  width: 100%;
+  height: 146px;
+  object-fit: cover;
+}
+
+.spectral-bar {
+  display: flex;
+  gap: 4px;
+  margin-top: 7px;
+}
+
+.spec-btn {
+  flex: 1;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(15, 23, 42, 0.8);
+  color: #cbd5e1;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.spec-btn.active {
+  background: #0284c7;
+  border-color: #7dd3fc;
+  color: #fff;
+}
+
+/* Plant Quick-Jump Matrix */
+.node-selector-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 9px;
+}
+
+.node-dot-btn {
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.node-dot-btn.selected {
+  background: #1e293b;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* Action Plan Steps inside Diagram Card */
+.diag-row {
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.diag-row:last-child {
+  border-bottom: none;
+}
+
+.diag-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+
+.action-step-btn {
+  width: 100%;
+  text-align: left;
+  margin-top: 6px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-step-btn:hover:not(.done) {
+  border-color: #1a6bb8;
+  background: #eff6ff;
+}
+
+.action-step-btn.done {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+/* Bottom Floating Tool Dock */
+.bottom-tool-dock {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: rgba(11, 22, 36, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  max-width: calc(100vw - 24px);
+  overflow-x: auto;
+}
+
+.tool-dock-btn {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(30, 41, 59, 0.72);
+  color: #cbd5e1;
+  padding: 7px 11px;
+  border-radius: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.tool-dock-btn:hover {
+  background: rgba(51, 65, 85, 0.9);
+  color: #ffffff;
+}
+
+.tool-dock-btn.active {
+  background: linear-gradient(135deg, #1a6bb8, #0ea5e9);
+  border-color: #7dd3fc;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.42);
+}
+
+.key-hint {
+  font-size: 9.5px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.55);
+  color: #93c5fd;
+}
+
+/* Merged Reality Mini Human Mirror */
+.human-mirror-pip {
+  position: relative;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 211, 153, 0.5);
+  height: 92px;
+  background: #020617;
+  margin-top: 6px;
+}
+
+.human-mirror-pip video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+/* Reference Diagram Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 16px;
+  max-width: 780px;
+  width: 100%;
+  padding: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+.modal-card img {
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+}
+
+@media (max-width: 1060px) {
+  .left-hud-panel {
+    width: 256px;
+  }
+  .right-hud-panel {
+    width: 278px;
+  }
+}
+
+@media (max-width: 780px) {
+  .left-hud-panel {
+    display: none;
+  }
+  .right-hud-panel {
+    width: 268px;
+    top: 112px;
+  }
+}
